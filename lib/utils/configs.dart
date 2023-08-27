@@ -1,8 +1,8 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 
-const APP_NAME = 'Handyman Service';
-const APP_NAME_TAG_LINE = 'On-Demand Home Services App';
+const APP_NAME = 'Serviços Gerais';
+const APP_NAME_TAG_LINE = 'Serviços gerais sob demanda';
 var defaultPrimaryColor = Color(0xFF5F60B9);
 
 const DOMAIN_URL = 'https://services.modernizetech.com.br';
