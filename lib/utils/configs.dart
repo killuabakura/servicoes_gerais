@@ -5,7 +5,7 @@ const APP_NAME = 'Handyman Service';
 const APP_NAME_TAG_LINE = 'On-Demand Home Services App';
 var defaultPrimaryColor = Color(0xFF5F60B9);
 
-const DOMAIN_URL = '';
+const DOMAIN_URL = 'https://services.modernizetech.com.br';
 const BASE_URL = '$DOMAIN_URL/api/';
 
 const DEFAULT_LANGUAGE = 'en';
@@ -14,9 +14,11 @@ const DEFAULT_LANGUAGE = 'en';
 /// This will be used in Registered As Partner in Sign In Screen where your users can redirect to the Play/App Store for Provider App
 /// You can specify in Admin Panel, These will be used if you don't specify in Admin Panel
 const PROVIDER_PACKAGE_NAME = 'com.iqonic.provider';
-const IOS_LINK_FOR_PARTNER = "https://apps.apple.com/in/app/handyman-provider-app/id1596025324";
+const IOS_LINK_FOR_PARTNER =
+    "https://apps.apple.com/in/app/handyman-provider-app/id1596025324";
 
-const IOS_LINK_FOR_USER = 'https://apps.apple.com/us/app/handyman-service-user/id1591427211';
+const IOS_LINK_FOR_USER =
+    'https://apps.apple.com/us/app/handyman-service-user/id1591427211';
 
 const DASHBOARD_AUTO_SLIDER_SECOND = 5;
 

@@ -32,7 +32,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'constant.dart';
 
-Future<bool> get isIqonicProduct async => await getPackageName() == appPackageName;
+Future<bool> get isIqonicProduct async =>
+    await getPackageName() == appPackageName;
 
 bool get isUserTypeHandyman => appStore.userType == USER_TYPE_HANDYMAN;
 
@@ -48,19 +49,27 @@ bool get isLoginTypeApple => appStore.loginType == LOGIN_TYPE_APPLE;
 
 bool get isLoginTypeOTP => appStore.loginType == LOGIN_TYPE_OTP;
 
-ThemeMode get appThemeMode => appStore.isDarkMode ? ThemeMode.dark : ThemeMode.light;
+ThemeMode get appThemeMode =>
+    appStore.isDarkMode ? ThemeMode.dark : ThemeMode.light;
 
-bool get isCurrencyPositionLeft => getStringAsync(CURRENCY_POSITION, defaultValue: CURRENCY_POSITION_LEFT) == CURRENCY_POSITION_LEFT;
+bool get isCurrencyPositionLeft =>
+    getStringAsync(CURRENCY_POSITION, defaultValue: CURRENCY_POSITION_LEFT) ==
+    CURRENCY_POSITION_LEFT;
 
-bool get isCurrencyPositionRight => getStringAsync(CURRENCY_POSITION, defaultValue: CURRENCY_POSITION_LEFT) == CURRENCY_POSITION_RIGHT;
+bool get isCurrencyPositionRight =>
+    getStringAsync(CURRENCY_POSITION, defaultValue: CURRENCY_POSITION_LEFT) ==
+    CURRENCY_POSITION_RIGHT;
 
 bool get isRTL => RTL_LanguageS.contains(appStore.selectedLanguageCode);
 
 void initializeOneSignal() async {
   OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-  await OneSignal.shared.setAppId(getStringAsync(ONESIGNAL_API_KEY)).then((value) async {
-    OneSignal.shared.setNotificationWillShowInForegroundHandler((OSNotificationReceivedEvent? event) {
+  await OneSignal.shared
+      .setAppId(getStringAsync(ONESIGNAL_API_KEY))
+      .then((value) async {
+    OneSignal.shared.setNotificationWillShowInForegroundHandler(
+        (OSNotificationReceivedEvent? event) {
       return event?.complete(event.notification);
     });
     OneSignal.shared.disablePush(false);
@@ -70,7 +79,9 @@ void initializeOneSignal() async {
     if (osDeviceState!.hasNotificationPermission) {
       updatePlayerId(playerId: osDeviceState.userId.validate());
     } else {
-      await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true).then((value) async {
+      await OneSignal.shared
+          .promptUserForPushNotificationPermission(fallbackToSettings: true)
+          .then((value) async {
         if (value) {
           updatePlayerId(playerId: osDeviceState.userId.validate());
         }
@@ -93,7 +104,8 @@ String getWishes() {
   }
 }
 
-Future<void> commonLaunchUrl(String address, {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
+Future<void> commonLaunchUrl(String address,
+    {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
   await launchUrl(Uri.parse(address), mode: launchMode).catchError((e) {
     toast('${language.invalidURL}: $address');
   });
@@ -102,15 +114,18 @@ Future<void> commonLaunchUrl(String address, {LaunchMode launchMode = LaunchMode
 void launchCall(String? url) {
   if (url.validate().isNotEmpty) {
     if (isIOS)
-      commonLaunchUrl('tel://' + url!, launchMode: LaunchMode.externalApplication);
+      commonLaunchUrl('tel://' + url!,
+          launchMode: LaunchMode.externalApplication);
     else
-      commonLaunchUrl('tel:' + url!, launchMode: LaunchMode.externalApplication);
+      commonLaunchUrl('tel:' + url!,
+          launchMode: LaunchMode.externalApplication);
   }
 }
 
 void launchMap(String? url) {
   if (url.validate().isNotEmpty) {
-    commonLaunchUrl(GOOGLE_MAP_PREFIX + url!, launchMode: LaunchMode.externalApplication);
+    commonLaunchUrl(GOOGLE_MAP_PREFIX + url!,
+        launchMode: LaunchMode.externalApplication);
   }
 }
 
@@ -159,15 +174,47 @@ void launchUrlCustomTab(String? url) {
 
 List<LanguageDataModel> languageList() {
   return [
-    LanguageDataModel(id: 1, name: 'English', languageCode: 'en', fullLanguageCode: 'en-US', flag: 'assets/flag/ic_us.png'),
-    LanguageDataModel(id: 2, name: 'Hindi', languageCode: 'hi', fullLanguageCode: 'hi-IN', flag: 'assets/flag/ic_india.png'),
-    LanguageDataModel(id: 3, name: 'Arabic', languageCode: 'ar', fullLanguageCode: 'ar-AR', flag: 'assets/flag/ic_ar.png'),
-    LanguageDataModel(id: 4, name: 'French', languageCode: 'fr', fullLanguageCode: 'fr-FR', flag: 'assets/flag/ic_fr.png'),
-    LanguageDataModel(id: 5, name: 'German', languageCode: 'de', fullLanguageCode: 'de-DE', flag: 'assets/flag/ic_de.png'),
+    LanguageDataModel(
+        id: 6,
+        name: 'Português',
+        languageCode: 'pt',
+        fullLanguageCode: 'pt-BR',
+        flag: 'assets/flag/ic_pt.png'),
+    LanguageDataModel(
+        id: 1,
+        name: 'English',
+        languageCode: 'en',
+        fullLanguageCode: 'en-US',
+        flag: 'assets/flag/ic_us.png'),
+    LanguageDataModel(
+        id: 2,
+        name: 'Hindi',
+        languageCode: 'hi',
+        fullLanguageCode: 'hi-IN',
+        flag: 'assets/flag/ic_india.png'),
+    LanguageDataModel(
+        id: 3,
+        name: 'Arabic',
+        languageCode: 'ar',
+        fullLanguageCode: 'ar-AR',
+        flag: 'assets/flag/ic_ar.png'),
+    LanguageDataModel(
+        id: 4,
+        name: 'French',
+        languageCode: 'fr',
+        fullLanguageCode: 'fr-FR',
+        flag: 'assets/flag/ic_fr.png'),
+    LanguageDataModel(
+        id: 5,
+        name: 'German',
+        languageCode: 'de',
+        fullLanguageCode: 'de-DE',
+        flag: 'assets/flag/ic_de.png'),
   ];
 }
 
-InputDecoration inputDecoration(BuildContext context, {Widget? prefixIcon, String? labelText, double? borderRadius}) {
+InputDecoration inputDecoration(BuildContext context,
+    {Widget? prefixIcon, String? labelText, double? borderRadius}) {
   return InputDecoration(
     contentPadding: EdgeInsets.only(left: 12, bottom: 10, top: 10, right: 10),
     labelText: labelText,
@@ -209,9 +256,14 @@ String parseHtmlString(String? htmlString) {
   return parse(parse(htmlString).body!.text).documentElement!.text;
 }
 
-String formatDate(String? dateTime, {String format = DATE_FORMAT_1, bool isFromMicrosecondsSinceEpoch = false, bool isLanguageNeeded = true}) {
+String formatDate(String? dateTime,
+    {String format = DATE_FORMAT_1,
+    bool isFromMicrosecondsSinceEpoch = false,
+    bool isLanguageNeeded = true}) {
   final languageCode = isLanguageNeeded ? appStore.selectedLanguageCode : null;
-  final parsedDateTime = isFromMicrosecondsSinceEpoch ? DateTime.fromMicrosecondsSinceEpoch(dateTime.validate().toInt() * 1000) : DateTime.parse(dateTime.validate());
+  final parsedDateTime = isFromMicrosecondsSinceEpoch
+      ? DateTime.fromMicrosecondsSinceEpoch(dateTime.validate().toInt() * 1000)
+      : DateTime.parse(dateTime.validate());
 
   return DateFormat(format, languageCode).format(parsedDateTime);
 }
@@ -234,7 +286,8 @@ num calculateTotalAmount({
 
   taxes.validate().forEach((element) {
     if (element.type == SERVICE_TYPE_PERCENT) {
-      element.totalCalculatedValue = ((servicePrice * qty) * element.value.validate()) / 100;
+      element.totalCalculatedValue =
+          ((servicePrice * qty) * element.value.validate()) / 100;
     } else {
       element.totalCalculatedValue = element.value.validate();
     }
@@ -242,10 +295,12 @@ num calculateTotalAmount({
   });
 
   if (serviceDiscountPercent.validate() != 0) {
-    totalAmount = (servicePrice * qty) - (((servicePrice * qty) * (serviceDiscountPercent!)) / 100);
+    totalAmount = (servicePrice * qty) -
+        (((servicePrice * qty) * (serviceDiscountPercent!)) / 100);
     discountPrice = servicePrice * qty - totalAmount;
 
-    totalAmount = (servicePrice * qty) - discountPrice - couponDiscountAmount + taxAmount;
+    totalAmount =
+        (servicePrice * qty) - discountPrice - couponDiscountAmount + taxAmount;
   } else {
     totalAmount = (servicePrice * qty) - couponDiscountAmount + taxAmount;
   }
@@ -255,7 +310,8 @@ num calculateTotalAmount({
       totalAmount = totalAmount - couponData.discount.validate();
       couponDiscountAmount = couponData.discount.validate().toDouble();
     } else {
-      totalAmount = totalAmount - ((totalAmount * couponData.discount.validate()) / 100);
+      totalAmount =
+          totalAmount - ((totalAmount * couponData.discount.validate()) / 100);
       num calValue = (totalAmount * couponData.discount.validate());
       couponDiscountAmount = calValue / 100;
     }
@@ -271,10 +327,13 @@ num calculateTotalAmount({
   }
 
   if (detail != null) {
-    detail.totalAmount = totalAmount.toStringAsFixed(DECIMAL_POINT).validate().toDouble();
+    detail.totalAmount =
+        totalAmount.toStringAsFixed(DECIMAL_POINT).validate().toDouble();
     detail.qty = qty.validate();
-    detail.discountPrice = discountPrice.toStringAsFixed(DECIMAL_POINT).validate().toDouble();
-    detail.taxAmount = taxAmount.toStringAsFixed(DECIMAL_POINT).validate().toDouble();
+    detail.discountPrice =
+        discountPrice.toStringAsFixed(DECIMAL_POINT).validate().toDouble();
+    detail.taxAmount =
+        taxAmount.toStringAsFixed(DECIMAL_POINT).validate().toDouble();
   }
   return totalAmount;
 }
@@ -347,9 +406,12 @@ String calculateTimer(int secTime) {
 
   seconds = secTime - (hour * 3600) - (minute * 60);
 
-  String hourLeft = hour.toString().length < 2 ? "0" + hour.toString() : hour.toString();
+  String hourLeft =
+      hour.toString().length < 2 ? "0" + hour.toString() : hour.toString();
 
-  String minuteLeft = minute.toString().length < 2 ? "0" + minute.toString() : minute.toString();
+  String minuteLeft = minute.toString().length < 2
+      ? "0" + minute.toString()
+      : minute.toString();
 
   String minutes = minuteLeft == '00' ? '01' : minuteLeft;
 
@@ -360,7 +422,8 @@ String calculateTimer(int secTime) {
   return result;
 }
 
-num getHourlyPrice({required int secTime, required num price, required String date}) {
+num getHourlyPrice(
+    {required int secTime, required num price, required String date}) {
   if (isTodayAfterDate(DateTime.parse(date))) {
     return hourlyCalculationNew(price: price, secTime: secTime);
   } else {
@@ -377,11 +440,16 @@ String newCalculateTimer(int secTime) {
 
   seconds = secTime - (hour * 3600) - (minute * 60);
 
-  String hourLeft = hour.toString().length < 2 ? "0" + hour.toString() : hour.toString();
+  String hourLeft =
+      hour.toString().length < 2 ? "0" + hour.toString() : hour.toString();
 
-  String minuteLeft = minute.toString().length < 2 ? "0" + minute.toString() : minute.toString();
+  String minuteLeft = minute.toString().length < 2
+      ? "0" + minute.toString()
+      : minute.toString();
 
-  String secondsLeft = seconds.toString().length < 2 ? "0" + seconds.toString() : seconds.toString();
+  String secondsLeft = seconds.toString().length < 2
+      ? "0" + seconds.toString()
+      : seconds.toString();
 
   String result = "$hourLeft:$minuteLeft:$secondsLeft";
 
@@ -455,7 +523,8 @@ num hourlyCalculation({required int secTime, required num price}) {
       if (secTime < 60) {
         value = (perMinuteCharge.toDouble() * 1).toStringAsFixed(2);
       } else {
-        value = (perMinuteCharge.toDouble() * data.last.toDouble()).toStringAsFixed(2);
+        value = (perMinuteCharge.toDouble() * data.last.toDouble())
+            .toStringAsFixed(2);
       }
 
       result = value.toDouble();
@@ -465,8 +534,11 @@ num hourlyCalculation({required int secTime, required num price}) {
         result = value.toDouble();
       } else {
         String value = (price * data.first.toInt()).toStringAsFixed(2);
-        String extraMinuteCharge = (data.last.toDouble() * perMinuteCharge.toDouble()).toStringAsFixed(2);
-        String finalPrice = (value.toDouble() + extraMinuteCharge.toDouble()).toStringAsFixed(2);
+        String extraMinuteCharge =
+            (data.last.toDouble() * perMinuteCharge.toDouble())
+                .toStringAsFixed(2);
+        String finalPrice = (value.toDouble() + extraMinuteCharge.toDouble())
+            .toStringAsFixed(2);
         result = finalPrice.toDouble();
       }
     }
@@ -478,11 +550,13 @@ num hourlyCalculation({required int secTime, required num price}) {
 String getPaymentStatusText(String? status, String? method) {
   if (status!.isEmpty) {
     return language.lblPending;
-  } else if (status == SERVICE_PAYMENT_STATUS_PAID || status == PENDING_BY_ADMIN) {
+  } else if (status == SERVICE_PAYMENT_STATUS_PAID ||
+      status == PENDING_BY_ADMIN) {
     return language.paid;
   } else if (status == SERVICE_PAYMENT_STATUS_ADVANCE_PAID) {
     return language.advancePaid;
-  } else if (status == SERVICE_PAYMENT_STATUS_PENDING && method == PAYMENT_METHOD_COD) {
+  } else if (status == SERVICE_PAYMENT_STATUS_PENDING &&
+      method == PAYMENT_METHOD_COD) {
     return language.pendingApproval;
   } else if (status == SERVICE_PAYMENT_STATUS_PENDING) {
     return language.lblPending;
@@ -522,22 +596,29 @@ Future<FirebaseRemoteConfig> setupFirebaseRemoteConfig() async {
   final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
 
   try {
-    remoteConfig.setConfigSettings(RemoteConfigSettings(fetchTimeout: Duration.zero, minimumFetchInterval: Duration.zero));
+    remoteConfig.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: Duration.zero, minimumFetchInterval: Duration.zero));
     await remoteConfig.fetch();
     await remoteConfig.fetchAndActivate();
   } catch (e) {
     throw language.firebaseRemoteCannotBe;
   }
-  if (remoteConfig.getString(USER_CHANGE_LOG).isNotEmpty) await compareValuesInSharedPreference(USER_CHANGE_LOG, remoteConfig.getString(USER_CHANGE_LOG));
+  if (remoteConfig.getString(USER_CHANGE_LOG).isNotEmpty)
+    await compareValuesInSharedPreference(
+        USER_CHANGE_LOG, remoteConfig.getString(USER_CHANGE_LOG));
   if (remoteConfig.getString(USER_CHANGE_LOG).validate().isNotEmpty) {
-    remoteConfigDataModel = RemoteConfigDataModel.fromJson(jsonDecode(remoteConfig.getString(USER_CHANGE_LOG)));
+    remoteConfigDataModel = RemoteConfigDataModel.fromJson(
+        jsonDecode(remoteConfig.getString(USER_CHANGE_LOG)));
 
-    await compareValuesInSharedPreference(IN_MAINTENANCE_MODE, remoteConfigDataModel.inMaintenanceMode);
+    await compareValuesInSharedPreference(
+        IN_MAINTENANCE_MODE, remoteConfigDataModel.inMaintenanceMode);
 
     if (isIOS) {
-      await compareValuesInSharedPreference(HAS_IN_REVIEW, remoteConfig.getBool(HAS_IN_APP_STORE_REVIEW));
+      await compareValuesInSharedPreference(
+          HAS_IN_REVIEW, remoteConfig.getBool(HAS_IN_APP_STORE_REVIEW));
     } else if (isAndroid) {
-      await compareValuesInSharedPreference(HAS_IN_REVIEW, remoteConfig.getBool(HAS_IN_PLAY_STORE_REVIEW));
+      await compareValuesInSharedPreference(
+          HAS_IN_REVIEW, remoteConfig.getBool(HAS_IN_PLAY_STORE_REVIEW));
     }
   }
 
@@ -582,9 +663,15 @@ void showNewUpdateDialog(BuildContext context) async {
 Future<void> showForceUpdateDialog(BuildContext context) async {
   if (getBoolAsync(UPDATE_NOTIFY, defaultValue: true)) {
     getPackageInfo().then((value) {
-      if (isAndroid && remoteConfigDataModel.android != null && remoteConfigDataModel.android!.versionCode.validate().toInt() > value.versionCode.validate().toInt()) {
+      if (isAndroid &&
+          remoteConfigDataModel.android != null &&
+          remoteConfigDataModel.android!.versionCode.validate().toInt() >
+              value.versionCode.validate().toInt()) {
         showNewUpdateDialog(context);
-      } else if (isIOS && remoteConfigDataModel.iOS != null && remoteConfigDataModel.iOS!.versionCode.validate() != value.versionCode.validate()) {
+      } else if (isIOS &&
+          remoteConfigDataModel.iOS != null &&
+          remoteConfigDataModel.iOS!.versionCode.validate() !=
+              value.versionCode.validate()) {
         showNewUpdateDialog(context);
       }
     });
@@ -624,7 +711,8 @@ String buildBookingConfirmData(String bookingDate) {
       int hour = dateTime.hour;
       int minute = dateTime.minute;
 
-      String time = '${hour != 0 ? '$hour:' : ''}${minute != 0 ? '$minute' : ''}';
+      String time =
+          '${hour != 0 ? '$hour:' : ''}${minute != 0 ? '$minute' : ''}';
       String finalTime = '${time.isNotEmpty ? ', $time' : ''}';
 
       String day = '';

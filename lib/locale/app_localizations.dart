@@ -2,6 +2,7 @@ import 'package:booking_system_flutter/locale/language_ar.dart';
 import 'package:booking_system_flutter/locale/language_en.dart';
 import 'package:booking_system_flutter/locale/language_hi.dart';
 import 'package:booking_system_flutter/locale/languages.dart';
+import 'package:booking_system_flutter/locale/language_pt.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -14,6 +15,8 @@ class AppLocalizations extends LocalizationsDelegate<BaseLanguage> {
   @override
   Future<BaseLanguage> load(Locale locale) async {
     switch (locale.languageCode) {
+      case 'pt':
+        return LanguagePt();
       case 'en':
         return LanguageEn();
       case 'ar':
@@ -26,12 +29,13 @@ class AppLocalizations extends LocalizationsDelegate<BaseLanguage> {
         return LanguageDe();
 
       default:
-        return LanguageEn();
+        return LanguagePt();
     }
   }
 
   @override
-  bool isSupported(Locale locale) => LanguageDataModel.languages().contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      LanguageDataModel.languages().contains(locale.languageCode);
 
   @override
   bool shouldReload(LocalizationsDelegate<BaseLanguage> old) => false;
