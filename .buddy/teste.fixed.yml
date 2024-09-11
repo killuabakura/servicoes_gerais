@@ -4,3 +4,35 @@
     refs:
     - "refs/heads/master"
   fail_on_prepare_env_warning: true
+  actions:
+  - action: "flutter build apk"
+    type: "BUILD"
+    docker_image_name: "library/openjdk"
+    docker_image_tag: "20"
+    execute_commands:
+    - "#Install Android SDK & Flutter 3.24.1"
+    - ""
+    - "#Buddy"
+    - "export ANDROID_HOME=\"/opt/android/sdk/\""
+    - "export FLUTTER_HOME=\"/opt/flutter\""
+    - "export FLUTTER_ROOT=\"$FLUTTER_HOME\""
+    - "export FLUTTER_VERSION=\"3.24.1\""
+    - "export PATH=$PATH:/opt/android/sdk/cmdline-tools/tools/bin:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin"
+    - "if [ ! -d \"$ANDROID_HOME/cmdline-tools\" ]; then"
+    - " curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip"
+    - " unzip sdk.zip"
+    - " rm sdk.zip"
+    - " mkdir \"$ANDROID_HOME/cmdline-tools\""
+    - " mv cmdline-tools \"$ANDROID_HOME/cmdline-tools/tools\""
+    - " yes | \"$ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager\" --licenses"
+    - "fi"
+    - "#Buddy"
+    - ""
+    - "flutter build apk"
+    setup_commands:
+    - "microdnf install xz git which unzip && cd /opt && curl -o flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.1-stable.tar.xz && tar -xf flutter.tar.xz && rm flutter.tar.xz"
+    - "/opt/flutter/bin/flutter doctor > /dev/null"
+    cached_dirs:
+    - "/root/.gradle"
+    - "/opt/android/sdk"
+    shell: "BASH"
